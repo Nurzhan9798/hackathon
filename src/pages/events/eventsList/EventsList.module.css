@@ -1,3 +1,42 @@
-.EventsList {
 
+.filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.filterIconWrapper {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #E4F9FC;
+    transition: .3s all;
+}
+
+.filterIconWrapperSelected {
+    background-color: #1CA1B7;
+}
+.filterIconWrapperSelected .filterIcon {
+    fill: #E4F9FC;
+}
+
+.filterIconWrapper:hover {
+    background-color: #1CA1B7;
+}
+
+.filterIcon {
+    fill: #1CA1B7;
+}
+
+.filterIconWrapper:hover .filterIcon{
+    fill: #E4F9FC;
+}
+
+.filterText {
+    font-family: "Poppins", serif;
+    font-size: 12px;
 }
