@@ -6,11 +6,7 @@ export const attractionIcon = new Icon({
 });
 
 export const foodIcon = new Icon({
-  iconUrl: "https://img.icons8.com/doodle/48/apple.png",
-  iconSize: [35, 35],
-});
-export const healthIcon = new Icon({
-  iconUrl: "https://img.icons8.com/doodle/48/heart-with-pulse.png",
+  iconUrl: "https://img.icons8.com/color/48/hamburger.png",
   iconSize: [35, 35],
 });
 

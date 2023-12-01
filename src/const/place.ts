@@ -11,11 +11,11 @@ export interface Place {
   // TourList;
 }
 
-export const places: Place[] = [1, 2, 3, 4, 5].map((number) => {
+export const places: Place[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => {
   const place: Place = {
     id: number,
     name: `Place Number ${number}`,
-    categoryId: number,
+    categoryId: (number % 5) + 1,
     image:
       "https://tengrinews.kz/userdata/news/2020/news_422927/resize/photo_345247.png",
     locationCoordinate: [

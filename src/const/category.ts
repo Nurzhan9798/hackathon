@@ -22,14 +22,14 @@ export const categories: Category[] = [
     icon: CafeIcon,
     name: "Кафе",
   },
-  // {
-  //   id: 3,
-  //   icon: PlaceIcon,
-  //   name: "достопримечательности",
-  // },
+  {
+    id: 3,
+    icon: PlaceIcon,
+    name: "Достопримечательности",
+  },
   {
     id: 4,
     icon: PlaceIcon,
-    name: "sd",
+    name: "Аэропорт",
   },
 ];

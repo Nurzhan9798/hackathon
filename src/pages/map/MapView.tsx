@@ -6,24 +6,18 @@ import { FaStar } from "react-icons/fa";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Link } from "react-router-dom";
 import { categories, Category } from "../../const/category";
-import {
-  foodIcon,
-  healthIcon,
-  attractionIcon,
-  trainIcon,
-} from "../../const/icons";
+import { attractionIcon, foodIcon, hotelIcon } from "../../const/icons";
 import { Place, places } from "../../const/place";
 import cls from "./Map.module.css";
 
 const iconMap: Record<string, Icon> = {
-  1: attractionIcon,
+  1: hotelIcon,
   2: foodIcon,
-  3: trainIcon,
-  4: healthIcon,
-  5: healthIcon,
-  6: healthIcon,
-  7: healthIcon,
-  8: healthIcon,
+  3: attractionIcon,
+  4: hotelIcon,
+  5: hotelIcon,
+  6: hotelIcon,
+  7: hotelIcon,
 };
 
 export const MapView = () => {
@@ -32,6 +26,10 @@ export const MapView = () => {
   const selectCategory = (category: number) => {
     if (selectedCategory === category) setSelectedCategory(-1);
     else setSelectedCategory(category);
+  };
+
+  const onPlaceClick = (place: Place) => {
+    map?.flyTo(place.locationCoordinate, 13);
   };
 
   return (
@@ -49,7 +47,7 @@ export const MapView = () => {
           }}
         >
           {categories.map((category: Category) => (
-            <div>
+            <div style={{ overflowX: "hidden", width: "50px" }}>
               <Stack>
                 <div
                   className={classNames(cls.filterIconWrapper, {
@@ -115,35 +113,39 @@ export const MapView = () => {
           }}
         >
           {places.map((place, index) => (
-            <Link to={`/places/${place.id}`}>
-              <Card key={index} style={{ flex: "0 0 auto", width: "18rem" }}>
-                <Card.Img
-                  variant="top"
-                  src={
-                    "https://tengrinews.kz/userdata/news/2020/news_422927/resize/photo_345247.png"
-                  }
-                />
-                <Card.Body style={{ textAlign: "start" }}>
-                  <Row>
-                    <Col xs={9}>
+            <Card
+              key={index}
+              style={{ flex: "0 0 auto", width: "18rem" }}
+              onClick={() => onPlaceClick(place)}
+            >
+              <Card.Img
+                variant="top"
+                src={
+                  "https://tengrinews.kz/userdata/news/2020/news_422927/resize/photo_345247.png"
+                }
+              />
+              <Card.Body style={{ textAlign: "start" }}>
+                <Row>
+                  <Col xs={9}>
+                    <Link to={`/places/${place.id}`}>
                       <Card.Title>{place.name}</Card.Title>
-                      <Card.Text>{"Mangystau"}</Card.Text>
-                    </Col>
-                    <Col
-                      xs={3}
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <span>{"5"}</span> {/* Rating number */}
-                      <FaStar /> {/* Rating icon */}
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Link>
+                    </Link>
+                    <Card.Text>{"Mangystau"}</Card.Text>
+                  </Col>
+                  <Col
+                    xs={3}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>{"5"}</span> {/* Rating number */}
+                    <FaStar /> {/* Rating icon */}
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
           ))}
         </Container>
       </Stack>
