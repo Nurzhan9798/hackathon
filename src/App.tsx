@@ -1,11 +1,11 @@
 import "leaflet/dist/leaflet.css";
-import { Accordion } from "react-bootstrap";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
 import EventOverview from "./pages/events/event/EventOverview";
 import { EventsList } from "./pages/events/eventsList/EventsList";
+import { Home } from "./pages/home/Home";
 import { Map } from "./pages/map/Map";
-import React from "react";
-import { Link, Route, Routes } from "react-router-dom";
-import "./App.css";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
       {/*<Link to={"/places/3"}>Place overview</Link>*/}
       {/*<Link to={"/info"}>Home</Link>*/}
       <Routes>
-        <Route path={"/"} element={<h1>Home</h1>} />
+        <Route path={"/"} element={<Home />} />
         <Route path={"/events"} element={<EventsList />} />
         <Route path={"/events/:id"} element={<EventOverview />} />
         <Route path={"/map"} element={<Map />} />
