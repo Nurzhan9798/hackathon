@@ -39,9 +39,9 @@ export const MapView = () => {
           direction={"horizontal"}
           gap={3}
           style={{
+            padding: "10px 20px",
             position: "absolute",
             zIndex: 10,
-            backgroundColor: "white",
             width: "100%",
             overflowX: "auto",
           }}
@@ -102,14 +102,16 @@ export const MapView = () => {
           })}
         </MapContainer>
 
-        <Container
+        <div
           style={{
+            width: "100%",
             display: "flex",
             overflowX: "auto",
             gap: "10px",
             position: "absolute",
             bottom: 0,
             zIndex: 10,
+            padding: "0 0 10px 20px",
           }}
         >
           {places.map((place, index) => (
@@ -147,7 +149,7 @@ export const MapView = () => {
               </Card.Body>
             </Card>
           ))}
-        </Container>
+        </div>
       </Stack>
     </Container>
   );
