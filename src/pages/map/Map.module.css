@@ -46,9 +46,7 @@
 
 .mapContainer {
     /*margin: 0 20px;*/
-    border-radius: 10px;
-    height: 80vh;
-    border: 2px solid black;
+    height: 100vh;
 }
 
 .places {

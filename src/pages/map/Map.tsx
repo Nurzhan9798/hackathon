@@ -146,9 +146,19 @@ export const Map = (props: MapProps) => {
   };
 
   return (
-    <Container>
+    <Container fluid className={"p-0"}>
       <Stack gap={3}>
-        <Stack direction={"horizontal"} gap={3}>
+        <Stack
+          direction={"horizontal"}
+          gap={3}
+          style={{
+            position: "absolute",
+            zIndex: 10,
+            backgroundColor: "white",
+            width: "100%",
+            overflowX: "auto",
+          }}
+        >
           {placesCategories.map((category) => (
             <div>
               <Stack>
@@ -166,34 +176,37 @@ export const Map = (props: MapProps) => {
             </div>
           ))}
         </Stack>
-        <div className="container-fluid text-center">
-          <div className="row content">
-            <MapContainer
-              className={cls.mapContainer}
-              center={[43.693695, 51.240834]}
-              zoom={13}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              {places.map((place) => {
-                if (
-                  selectedCategory !== -1 &&
-                  place.category != selectedCategory
-                )
-                  return null;
-                return (
-                  <Marker position={place.location} icon={icon}>
-                    <Popup>{place.shortDesc}</Popup>
-                  </Marker>
-                );
-              })}
-              <LocationMarker />
-            </MapContainer>
-          </div>
-        </div>
-        <Container style={{ display: "flex", overflowX: "auto", gap: "10px" }}>
+        <MapContainer
+          zoomControl={false}
+          className={cls.mapContainer}
+          center={[43.693695, 51.240834]}
+          zoom={13}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {places.map((place) => {
+            if (selectedCategory !== -1 && place.category != selectedCategory)
+              return null;
+            return (
+              <Marker position={place.location} icon={icon}>
+                <Popup>{place.shortDesc}</Popup>
+              </Marker>
+            );
+          })}
+          <LocationMarker />
+        </MapContainer>
+        <Container
+          style={{
+            display: "flex",
+            overflowX: "auto",
+            gap: "10px",
+            position: "absolute",
+            bottom: 0,
+            zIndex: 10,
+          }}
+        >
           {places.map((place, index) => (
             <Link to={`/places/${place.id}`}>
               <Card key={index} style={{ flex: "0 0 auto", width: "18rem" }}>
@@ -203,23 +216,22 @@ export const Map = (props: MapProps) => {
                     "https://tengrinews.kz/userdata/news/2020/news_422927/resize/photo_345247.png"
                   }
                 />
-                <Card.Body>
+                <Card.Body style={{ textAlign: "start" }}>
                   <Row>
-                    <Col md={9}>
+                    <Col xs={9}>
                       <Card.Title>{place.name}</Card.Title>
                       <Card.Text>{"Mangystau"}</Card.Text>
                     </Col>
                     <Col
-                      md={3}
+                      xs={3}
                       style={{
                         display: "flex",
-                        flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "center",
                       }}
                     >
-                      <FaStar /> {/* Rating icon */}
                       <span>{"5"}</span> {/* Rating number */}
+                      <FaStar /> {/* Rating icon */}
                     </Col>
                   </Row>
                 </Card.Body>
