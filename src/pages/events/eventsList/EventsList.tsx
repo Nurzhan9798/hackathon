@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import cls from "src/pages/events/eventsList/EventsList.module.css";
+import cls from "./EventsList.module.css";
 
 interface EventsListProps {
   className?: string;

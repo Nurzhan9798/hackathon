@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import cls from "src/pages/events/event/EventOverview.module.css";
+import cls from "./EventOverview.module.css";
 
 interface EventOverviewProps {
   className?: string;
