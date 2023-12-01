@@ -1,0 +1,103 @@
+.Map {
+    display: flex;
+    flex-direction: column;
+}
+
+.filters {
+    padding: 20px;
+    display: flex;
+    gap: 30px;
+    /*height: 10vh;*/
+}
+.filterItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.filterIconWrapper {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.filterIconWrapperSelected {
+    background-color: #1CA1B7;
+}
+.filterIconWrapperSelected .filterIcon {
+    fill: #E4F9FC;
+}
+
+.filterIconWrapper:hover {
+    background-color: #1CA1B7;
+}
+
+.filterIcon {
+    fill: #1CA1B7;
+}
+
+.filterIconWrapper:hover .filterIcon{
+    fill: #E4F9FC;
+}
+
+.filterText {
+    font-family: "Poppins", serif;
+    font-size: 12px;
+}
+
+.mapContainer {
+    margin: 0 20px;
+    border-radius: 10px;
+    height: 80vh;
+    border: 2px solid black;
+}
+
+.mapResult {
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+}
+
+.placeItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    width: 150px;
+}
+
+.placeItem:hover {
+    /*background-color: grey;*/
+}
+.placeImage img {
+    width: 150px;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.placeInfo {
+    text-align: start;
+    font-size: 10px;
+}
+
+.placeName {
+    font-weight: 700;
+}
+
+.placeLocationName {
+    display: flex;
+    gap: 5px;
+    font-weight: 300;
+}
+
+.placeLocationName img {
+    width: 10px;
+    height: 10px;
+}
