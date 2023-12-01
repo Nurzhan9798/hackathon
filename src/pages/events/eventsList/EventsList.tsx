@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import { Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { ReactComponent as CafeIcon } from "../../../assets/Group 579.svg";
 import { ReactComponent as PlaceIcon } from "../../../assets/Vector-2.svg";
 import { ReactComponent as HotelIcon } from "../../../assets/Vector.svg";
@@ -213,28 +214,30 @@ export const EventsList = (props: EventsListProps) => {
           ))}
         </Stack>
         {data.map((place) => (
-          <Card className="mb-3">
-            <Card.Img variant="top" src={place.img} />
-            <Card.Body style={{ textAlign: "start" }}>
-              <Row>
-                <Col xs={9}>
-                  <Card.Title>{place.name}</Card.Title>
-                  <Card.Text>{"Mangystau"}</Card.Text>
-                </Col>
-                <Col
-                  xs={3}
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <span>{"5"}</span> {/* Rating number */}
-                  <FaStar /> {/* Rating icon */}
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
+          <Link to={`/events/${place.id}`}>
+            <Card className="mb-3">
+              <Card.Img variant="top" src={place.img} />
+              <Card.Body style={{ textAlign: "start" }}>
+                <Row>
+                  <Col xs={9}>
+                    <Card.Title>{place.name}</Card.Title>
+                    <Card.Text>{"Mangystau"}</Card.Text>
+                  </Col>
+                  <Col
+                    xs={3}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>{"5"}</span> {/* Rating number */}
+                    <FaStar /> {/* Rating icon */}
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          </Link>
         ))}
       </Stack>
     </Container>

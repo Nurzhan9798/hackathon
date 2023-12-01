@@ -1,5 +1,12 @@
 import classNames from "classnames";
-import { Icon, LatLng, LatLngExpression, LocationEvent } from "leaflet";
+import {
+  Icon,
+  LatLng,
+  LatLngExpression,
+  LeafletMouseEvent,
+  LocationEvent,
+  Map,
+} from "leaflet";
 import { useState } from "react";
 import { Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
@@ -9,6 +16,7 @@ import {
   Marker,
   Popup,
   TileLayer,
+  useMap,
   useMapEvents,
 } from "react-leaflet";
 import { Link } from "react-router-dom";
@@ -74,42 +82,42 @@ const places: Place[] = [
     name: "Place 1",
     category: 1,
     shortDesc: "desc 1",
-    location: [43.693695, 51.240834],
+    location: [43.723695, 51.240834],
   },
   {
     id: 4,
     name: "Place 2",
     category: 2,
     shortDesc: "desc 2",
-    location: [43.703695, 51.240834],
+    location: [43.733695, 51.240834],
   },
   {
     id: 5,
     name: "Place 3",
     category: 3,
     shortDesc: "desc 3",
-    location: [43.713695, 51.240834],
+    location: [43.743695, 51.240834],
   },
   {
     id: 6,
     name: "Place 1",
     category: 1,
     shortDesc: "desc 1",
-    location: [43.693695, 51.240834],
+    location: [43.753695, 51.240834],
   },
   {
     id: 7,
     name: "Place 2",
     category: 2,
     shortDesc: "desc 2",
-    location: [43.703695, 51.240834],
+    location: [43.763695, 51.240834],
   },
   {
     id: 8,
     name: "Place 3",
     category: 3,
     shortDesc: "desc 3",
-    location: [43.713695, 51.240834],
+    location: [43.773695, 51.240834],
   },
 ];
 const icon = new Icon({
@@ -136,13 +144,18 @@ function LocationMarker() {
   );
 }
 
-export const Map = (props: MapProps) => {
+export const MapView = (props: MapProps) => {
   const { className } = props;
   const [selectedCategory, setSelectedCategory] = useState(-1);
-
+  const [map, setMap] = useState<Map | null>(null);
   const selectCategory = (category: number) => {
     if (selectedCategory === category) setSelectedCategory(-1);
     else setSelectedCategory(category);
+  };
+
+  const updateMap = (e: LeafletMouseEvent, place: Place) => {
+    console.log(e);
+    console.log(place.id);
   };
 
   return (
@@ -181,6 +194,7 @@ export const Map = (props: MapProps) => {
           className={cls.mapContainer}
           center={[43.693695, 51.240834]}
           zoom={13}
+          ref={setMap}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -190,13 +204,28 @@ export const Map = (props: MapProps) => {
             if (selectedCategory !== -1 && place.category != selectedCategory)
               return null;
             return (
-              <Marker position={place.location} icon={icon}>
-                <Popup>{place.shortDesc}</Popup>
+              <Marker
+                position={place.location}
+                icon={icon}
+                eventHandlers={{
+                  click: (e) => {
+                    updateMap(e, place);
+                    map?.flyTo(e.latlng);
+                  },
+                }}
+              >
+                {/*<Popup>{place.shortDesc}</Popup>*/}
+                <Popup>
+                  <Card.Body>
+                    <Card.Title>{place.name}</Card.Title>
+                    <Card.Text>{place.shortDesc}</Card.Text>
+                  </Card.Body>
+                </Popup>
               </Marker>
             );
           })}
-          <LocationMarker />
         </MapContainer>
+
         <Container
           style={{
             display: "flex",
