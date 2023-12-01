@@ -1,161 +1,37 @@
 import classNames from "classnames";
-import {
-  Icon,
-  LatLng,
-  LatLngExpression,
-  LeafletMouseEvent,
-  LocationEvent,
-  Map,
-} from "leaflet";
+import { Icon, Map } from "leaflet";
 import { useState } from "react";
 import { Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
-import {
-  Circle,
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMap,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Link } from "react-router-dom";
+import { categories, Category } from "../../const/category";
+import {
+  foodIcon,
+  healthIcon,
+  attractionIcon,
+  trainIcon,
+} from "../../const/icons";
+import { Place, places } from "../../const/place";
 import cls from "./Map.module.css";
-import { ReactComponent as HotelIcon } from "../../assets/Vector.svg";
-import { ReactComponent as PlaceIcon } from "../../assets/Vector-2.svg";
-import { ReactComponent as CafeIcon } from "../../assets/Group 579.svg";
 
-interface MapProps {
-  className?: string;
-}
+const iconMap: Record<string, Icon> = {
+  1: attractionIcon,
+  2: foodIcon,
+  3: trainIcon,
+  4: healthIcon,
+  5: healthIcon,
+  6: healthIcon,
+  7: healthIcon,
+  8: healthIcon,
+};
 
-const placesCategories = [
-  {
-    icon: HotelIcon,
-    text: "Hotel",
-    category: 1,
-  },
-  {
-    icon: CafeIcon,
-    text: "Cafe",
-    category: 2,
-  },
-  {
-    icon: PlaceIcon,
-    text: "Places",
-    category: 3,
-  },
-];
-
-interface Place {
-  id: number;
-  name: string;
-  category: number;
-  shortDesc: string;
-  location: LatLngExpression;
-}
-
-const places: Place[] = [
-  {
-    id: 1,
-    name: "Place 1",
-    category: 1,
-    shortDesc: "desc 1",
-    location: [43.693695, 51.240834],
-  },
-  {
-    id: 2,
-    name: "Place 2",
-    category: 2,
-    shortDesc: "desc 2",
-    location: [43.703695, 51.240834],
-  },
-  {
-    id: 3,
-    name: "Place 3",
-    category: 3,
-    shortDesc: "desc 3",
-    location: [43.713695, 51.240834],
-  },
-  {
-    id: 3,
-    name: "Place 1",
-    category: 1,
-    shortDesc: "desc 1",
-    location: [43.723695, 51.240834],
-  },
-  {
-    id: 4,
-    name: "Place 2",
-    category: 2,
-    shortDesc: "desc 2",
-    location: [43.733695, 51.240834],
-  },
-  {
-    id: 5,
-    name: "Place 3",
-    category: 3,
-    shortDesc: "desc 3",
-    location: [43.743695, 51.240834],
-  },
-  {
-    id: 6,
-    name: "Place 1",
-    category: 1,
-    shortDesc: "desc 1",
-    location: [43.753695, 51.240834],
-  },
-  {
-    id: 7,
-    name: "Place 2",
-    category: 2,
-    shortDesc: "desc 2",
-    location: [43.763695, 51.240834],
-  },
-  {
-    id: 8,
-    name: "Place 3",
-    category: 3,
-    shortDesc: "desc 3",
-    location: [43.773695, 51.240834],
-  },
-];
-const icon = new Icon({
-  iconUrl: "https://static.thenounproject.com/png/245626-200.png",
-  iconSize: [32, 32],
-  className: "c",
-});
-function LocationMarker() {
-  const [position, setPosition] = useState<null | LatLng>(null);
-  const map = useMapEvents({
-    click() {
-      map.locate();
-    },
-    locationfound(e: LocationEvent) {
-      setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-    },
-  });
-
-  return position === null ? null : (
-    <Marker position={position} icon={icon}>
-      <Popup>You are here</Popup>
-    </Marker>
-  );
-}
-
-export const MapView = (props: MapProps) => {
-  const { className } = props;
+export const MapView = () => {
   const [selectedCategory, setSelectedCategory] = useState(-1);
   const [map, setMap] = useState<Map | null>(null);
   const selectCategory = (category: number) => {
     if (selectedCategory === category) setSelectedCategory(-1);
     else setSelectedCategory(category);
-  };
-
-  const updateMap = (e: LeafletMouseEvent, place: Place) => {
-    console.log(e);
-    console.log(place.id);
   };
 
   return (
@@ -172,19 +48,19 @@ export const MapView = (props: MapProps) => {
             overflowX: "auto",
           }}
         >
-          {placesCategories.map((category) => (
+          {categories.map((category: Category) => (
             <div>
               <Stack>
                 <div
                   className={classNames(cls.filterIconWrapper, {
                     [cls.filterIconWrapperSelected]:
-                      category.category === selectedCategory,
+                      category.id === selectedCategory,
                   })}
-                  onClick={() => selectCategory(category.category)}
+                  onClick={() => selectCategory(category.id)}
                 >
                   <category.icon className={cls.filterIcon} />
                 </div>
-                <p className={cls.filterText}>{category.text}</p>
+                <p className={cls.filterText}>{category.name}</p>
               </Stack>
             </div>
           ))}
@@ -200,25 +76,27 @@ export const MapView = (props: MapProps) => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {places.map((place) => {
-            if (selectedCategory !== -1 && place.category != selectedCategory)
+          {places.map((place: Place) => {
+            if (
+              selectedCategory !== -1 &&
+              place.categoryId !== selectedCategory
+            )
               return null;
+
             return (
               <Marker
-                position={place.location}
-                icon={icon}
+                position={place.locationCoordinate}
+                icon={iconMap[place.categoryId]}
                 eventHandlers={{
                   click: (e) => {
-                    updateMap(e, place);
-                    map?.flyTo(e.latlng);
+                    map?.flyTo(e.latlng, 13);
                   },
                 }}
               >
-                {/*<Popup>{place.shortDesc}</Popup>*/}
                 <Popup>
                   <Card.Body>
                     <Card.Title>{place.name}</Card.Title>
-                    <Card.Text>{place.shortDesc}</Card.Text>
+                    <Card.Text>{place.description}</Card.Text>
                   </Card.Body>
                 </Popup>
               </Marker>
