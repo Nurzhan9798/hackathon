@@ -1,0 +1,12 @@
+.card {
+    font-family: 'Your font family here'; /* Specify your font family */
+}
+
+.card-img-top {
+    object-fit: cover; /* Ensures the image covers the area without stretching */
+}
+
+.fa-heart {
+    color: #fff; /* Change this to your desired color for the heart icon */
+    cursor: pointer;
+}

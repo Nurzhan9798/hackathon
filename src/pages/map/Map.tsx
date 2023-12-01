@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import { Icon, LatLng, LatLngExpression, LocationEvent } from "leaflet";
 import { useState } from "react";
+import { Card, Col, Container, Row, Stack } from "react-bootstrap";
+import { FaStar } from "react-icons/fa";
 import {
   Circle,
   MapContainer,
@@ -48,7 +50,7 @@ interface Place {
 const places: Place[] = [
   {
     id: 1,
-    name: "Place 1 sdfjlnjsdlf kjsalkd fnsjkldf;jk ajsdfkl; kasdjf ajsdfk sd",
+    name: "Place 1",
     category: 1,
     shortDesc: "desc 1",
     location: [43.693695, 51.240834],
@@ -69,7 +71,7 @@ const places: Place[] = [
   },
   {
     id: 3,
-    name: "Place 1 sdfjlnjsdlf kjsalkd fnsjkldf;jk ajsdfkl; kasdjf ajsdfk sd",
+    name: "Place 1",
     category: 1,
     shortDesc: "desc 1",
     location: [43.693695, 51.240834],
@@ -90,7 +92,7 @@ const places: Place[] = [
   },
   {
     id: 6,
-    name: "Place 1 sdfjlnjsdlf kjsalkd fnsjkldf;jk ajsdfkl; kasdjf ajsdfk sd",
+    name: "Place 1",
     category: 1,
     shortDesc: "desc 1",
     location: [43.693695, 51.240834],
@@ -144,70 +146,88 @@ export const Map = (props: MapProps) => {
   };
 
   return (
-    <div className={classNames(cls.Map, [className])}>
-      <div className={cls.filters}>
-        {placesCategories.map((category) => (
-          <div className={cls.filterItem}>
-            <div
-              className={classNames(cls.filterIconWrapper, {
-                [cls.filterIconWrapperSelected]:
-                  category.category === selectedCategory,
-              })}
-              onClick={() => selectCategory(category.category)}
-            >
-              <category.icon className={cls.filterIcon} />
-            </div>
-            <p className={cls.filterText}>{category.text}</p>
-          </div>
-        ))}
-      </div>
-      <div>
-        <MapContainer
-          className={cls.mapContainer}
-          center={[43.693695, 51.240834]}
-          zoom={13}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {places.map((place) => {
-            if (selectedCategory !== -1 && place.category != selectedCategory)
-              return null;
-            return (
-              <Marker position={place.location} icon={icon}>
-                <Popup>{place.shortDesc}</Popup>
-              </Marker>
-            );
-          })}
-          <LocationMarker />
-        </MapContainer>
-      </div>
-      <div className={cls.mapResult}>
-        {places.map((place) => (
-          <Link to={"/places/"} className={cls.placeItem}>
-            <div className={cls.placeImage}>
-              <img
-                src={"https://ticketon.kz/files/media/gora-bozzhyra-001.jpg"}
-                alt=""
-              />
-            </div>
-            <div className={cls.placeInfo}>
-              <div>
-                <p className={cls.placeName}>{place.name}</p>
-                {/*<p>{place.locationName}</p>*/}
-                <div className={cls.placeLocationName}>
-                  <img
-                    src="https://static.thenounproject.com/png/245626-200.png"
-                    alt=""
-                  />
-                  <p>Mangystau</p>
+    <Container>
+      <Stack gap={3}>
+        <Stack direction={"horizontal"} gap={3}>
+          {placesCategories.map((category) => (
+            <div>
+              <Stack>
+                <div
+                  className={classNames(cls.filterIconWrapper, {
+                    [cls.filterIconWrapperSelected]:
+                      category.category === selectedCategory,
+                  })}
+                  onClick={() => selectCategory(category.category)}
+                >
+                  <category.icon className={cls.filterIcon} />
                 </div>
-              </div>
+                <p className={cls.filterText}>{category.text}</p>
+              </Stack>
             </div>
-          </Link>
-        ))}
-      </div>
-    </div>
+          ))}
+        </Stack>
+        <div className="container-fluid text-center">
+          <div className="row content">
+            <MapContainer
+              className={cls.mapContainer}
+              center={[43.693695, 51.240834]}
+              zoom={13}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              {places.map((place) => {
+                if (
+                  selectedCategory !== -1 &&
+                  place.category != selectedCategory
+                )
+                  return null;
+                return (
+                  <Marker position={place.location} icon={icon}>
+                    <Popup>{place.shortDesc}</Popup>
+                  </Marker>
+                );
+              })}
+              <LocationMarker />
+            </MapContainer>
+          </div>
+        </div>
+        <Container style={{ display: "flex", overflowX: "auto", gap: "10px" }}>
+          {places.map((place, index) => (
+            <Link to={`/places/${place.id}`}>
+              <Card key={index} style={{ flex: "0 0 auto", width: "18rem" }}>
+                <Card.Img
+                  variant="top"
+                  src={
+                    "https://tengrinews.kz/userdata/news/2020/news_422927/resize/photo_345247.png"
+                  }
+                />
+                <Card.Body>
+                  <Row>
+                    <Col md={9}>
+                      <Card.Title>{place.name}</Card.Title>
+                      <Card.Text>{"Mangystau"}</Card.Text>
+                    </Col>
+                    <Col
+                      md={3}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <FaStar /> {/* Rating icon */}
+                      <span>{"5"}</span> {/* Rating number */}
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Link>
+          ))}
+        </Container>
+      </Stack>
+    </Container>
   );
 };

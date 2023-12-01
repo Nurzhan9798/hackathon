@@ -1,16 +1,47 @@
-import classNames from "classnames";
-import cls from "./EventOverview.module.css";
+import React from "react";
+import { Card, Button } from "react-bootstrap";
+import { FaHeart, FaMapMarkerAlt } from "react-icons/fa"; // for the heart and location marker icons
+import "./EventOverview.css";
 
-interface EventOverviewProps {
-  className?: string;
-}
-
-export const EventOverview = (props: EventOverviewProps) => {
-  const { className } = props;
-
+const EventOverview = () => {
+  const image =
+    "https://tengrinews.kz/userdata/news/2020/news_422927/resize/photo_345247.png";
+  const title = "Title";
+  const description = "Lorem";
+  const distance = "1400";
   return (
-    <div className={classNames(cls.EventOverview, [className])}>
-      EventOverview
-    </div>
+    <Card style={{ width: "18rem" }}>
+      <div style={{ position: "relative" }}>
+        <Card.Img variant="top" src={image} />
+        <FaHeart
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            fontSize: "1.5em",
+            color: "white",
+          }}
+        />
+      </div>
+      <Card.Body>
+        <Card.Title>{title}</Card.Title>
+        <Card.Text>{description}</Card.Text>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <FaMapMarkerAlt style={{ marginRight: "5px" }} />
+            <span>{distance}</span>
+          </div>
+          <Button variant="primary">Картаған Керу</Button>
+        </div>
+      </Card.Body>
+    </Card>
   );
 };
+
+export default EventOverview;
