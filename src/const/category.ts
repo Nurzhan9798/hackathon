@@ -11,7 +11,7 @@ export interface Category {
   name: string;
 }
 
-export const categories: Category[] = [
+export const categoriesArray: Category[] = [
   {
     id: 1,
     icon: HotelIcon,
@@ -29,6 +29,46 @@ export const categories: Category[] = [
   },
   {
     id: 4,
+    icon: PlaceIcon,
+    name: "Аэропорт",
+  },
+  {
+    id: 5,
+    icon: HotelIcon,
+    name: "Гостиница",
+  },
+  {
+    id: 6,
+    icon: CafeIcon,
+    name: "Кафе",
+  },
+  {
+    id: 7,
+    icon: PlaceIcon,
+    name: "Достопримечательности",
+  },
+  {
+    id: 8,
+    icon: PlaceIcon,
+    name: "Аэропорт",
+  },
+  {
+    id: 9,
+    icon: HotelIcon,
+    name: "Гостиница",
+  },
+  {
+    id: 10,
+    icon: CafeIcon,
+    name: "Кафе",
+  },
+  {
+    id: 11,
+    icon: PlaceIcon,
+    name: "Достопримечательности",
+  },
+  {
+    id: 12,
     icon: PlaceIcon,
     name: "Аэропорт",
   },

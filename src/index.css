@@ -17,6 +17,12 @@ a {
 .leaflet-pane { z-index: 0 !important}
 .leaflet-top, .leaflet-bottom {z-index: 0 !important}
 
+
+.leaflet-bottom {
+  bottom: 50%;
+  transform: translateY(-50%);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

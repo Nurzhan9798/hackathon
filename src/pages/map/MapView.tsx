@@ -1,13 +1,13 @@
 import classNames from "classnames";
-import { Icon, Map } from "leaflet";
-import { useState } from "react";
+import L, { Icon, Map } from "leaflet";
+import { useEffect, useState } from "react";
 import { Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Link } from "react-router-dom";
-import { categories, Category } from "../../const/category";
+import { categoriesArray, Category } from "../../const/category";
 import { attractionIcon, foodIcon, hotelIcon } from "../../const/icons";
-import { Place, places } from "../../const/place";
+import { Place, placesArray } from "../../const/place";
 import cls from "./Map.module.css";
 
 const iconMap: Record<string, Icon> = {
@@ -19,10 +19,46 @@ const iconMap: Record<string, Icon> = {
   6: hotelIcon,
   7: hotelIcon,
 };
-
 export const MapView = () => {
   const [selectedCategory, setSelectedCategory] = useState(-1);
   const [map, setMap] = useState<Map | null>(null);
+  const [categories, setCategories] = useState<Category[]>(categoriesArray);
+  const [places, setPlaces] = useState<Place[]>(placesArray);
+
+  const fetchCategories = async () => {
+    // const response = await axios.get<Category[]>(api + "/");
+    // setCategories(response.data);
+  };
+
+  const fetchPlaces = async () => {
+    // const response = await axios.get<Place[]>(api + "/places");
+    // setPlaces(response.data);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+    fetchPlaces();
+  }, []);
+
+  useEffect(() => {
+    if (!map) return;
+
+    L.easyButton("fa-map-marker", () => {
+      map.locate().on("locationfound", function (e) {
+        map.flyTo(e.latlng, 18);
+        L.circle(e.latlng, 10).addTo(map);
+      });
+    })
+      .setPosition("bottomleft")
+      .addTo(map);
+
+    L.control
+      .zoom({
+        position: "bottomleft",
+      })
+      .addTo(map);
+  }, [map]);
+
   const selectCategory = (category: number) => {
     if (selectedCategory === category) setSelectedCategory(-1);
     else setSelectedCategory(category);
@@ -44,29 +80,37 @@ export const MapView = () => {
             zIndex: 10,
             width: "100%",
             overflowX: "auto",
+            flexWrap: "nowrap",
+            whiteSpace: "nowrap",
           }}
         >
           {categories.map((category: Category) => (
-            <div style={{ overflowX: "hidden", width: "50px" }}>
-              <Stack>
-                <div
-                  className={classNames(cls.filterIconWrapper, {
-                    [cls.filterIconWrapperSelected]:
-                      category.id === selectedCategory,
-                  })}
-                  onClick={() => selectCategory(category.id)}
-                >
-                  <category.icon className={cls.filterIcon} />
-                </div>
-                <p className={cls.filterText}>{category.name}</p>
-              </Stack>
+            <div
+              style={{
+                minWidth: "50px",
+                maxWidth: "50px",
+                display: "flex",
+                flexDirection: "column",
+                overflowX: "hidden",
+              }}
+            >
+              <div
+                className={classNames(cls.filterIconWrapper, {
+                  [cls.filterIconWrapperSelected]:
+                    category.id === selectedCategory,
+                })}
+                onClick={() => selectCategory(category.id)}
+              >
+                <category.icon className={cls.filterIcon} />
+              </div>
+              <p className={cls.filterText}>{category.name}</p>
             </div>
           ))}
         </Stack>
         <MapContainer
           zoomControl={false}
-          className={cls.mapContainer}
           center={[43.693695, 51.240834]}
+          className={cls.mapContainer}
           zoom={13}
           ref={setMap}
         >
@@ -142,8 +186,8 @@ export const MapView = () => {
                       alignItems: "center",
                     }}
                   >
-                    <span>{"5"}</span> {/* Rating number */}
-                    <FaStar /> {/* Rating icon */}
+                    <span>{"5"}</span>
+                    <FaStar />
                   </Col>
                 </Row>
               </Card.Body>
