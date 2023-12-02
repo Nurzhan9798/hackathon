@@ -3,32 +3,30 @@ import { useState } from "react";
 import { Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { ReactComponent as CafeIcon } from "../../../assets/Group 579.svg";
-import { ReactComponent as PlaceIcon } from "../../../assets/Vector-2.svg";
-import { ReactComponent as HotelIcon } from "../../../assets/Vector.svg";
+import { Category, homeCategoriesArray } from "../../../const/category";
 import cls from "./EventsList.module.css";
 
 interface EventsListProps {
   className?: string;
 }
 
-const categories = [
-  {
-    icon: HotelIcon,
-    text: "Hotel",
-    category: 1,
-  },
-  {
-    icon: CafeIcon,
-    text: "Cafe",
-    category: 2,
-  },
-  {
-    icon: PlaceIcon,
-    text: "Places",
-    category: 3,
-  },
-];
+// const categories = [
+//   {
+//     icon: HotelIcon,
+//     text: "Hotel",
+//     category: 1,
+//   },
+//   {
+//     icon: CafeIcon,
+//     text: "Cafe",
+//     category: 2,
+//   },
+//   {
+//     icon: PlaceIcon,
+//     text: "Places",
+//     category: 3,
+//   },
+// ];
 
 const data = [
   {
@@ -189,27 +187,39 @@ export const EventsList = (props: EventsListProps) => {
           direction={"horizontal"}
           gap={3}
           style={{
-            position: "fixed",
-            zIndex: 10,
+            padding: "10px 20px",
+            position: "absolute",
             backgroundColor: "white",
+            zIndex: 10,
             width: "100%",
             overflowX: "auto",
+            flexWrap: "nowrap",
+            whiteSpace: "nowrap",
+            justifyContent: "space-evenly",
           }}
         >
-          {categories.map((category) => (
-            <div>
-              <Stack>
-                <div
-                  className={classNames(cls.filterIconWrapper, {
-                    [cls.filterIconWrapperSelected]:
-                      category.category === selectedCategory,
-                  })}
-                  onClick={() => selectCategory(category.category)}
-                >
-                  <category.icon className={cls.filterIcon} />
-                </div>
-                <p className={cls.filterText}>{category.text}</p>
-              </Stack>
+          {homeCategoriesArray.map((category: Category) => (
+            <div
+              style={{
+                minWidth: "50px",
+                maxWidth: "50px",
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+                textAlign: "center",
+              }}
+            >
+              <div
+                className={classNames(cls.filterIconWrapper, {
+                  [cls.filterIconWrapperSelected]:
+                    category.id === selectedCategory,
+                })}
+                onClick={() => selectCategory(category.id)}
+                style={{ marginBottom: "5px" }}
+              >
+                <category.icon className={cls.filterIcon} />
+              </div>
+              <p className={cls.filterText}>{category.name}</p>
             </div>
           ))}
         </Stack>

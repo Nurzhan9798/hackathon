@@ -2,6 +2,9 @@ import * as React from "react";
 import { ReactComponent as CafeIcon } from "../assets/Group 579.svg";
 import { ReactComponent as PlaceIcon } from "../assets/Vector-2.svg";
 import { ReactComponent as HotelIcon } from "../assets/Vector.svg";
+import { ReactComponent as Icon1 } from "../assets/Vector-4.svg";
+import { ReactComponent as Icon2 } from "../assets/Vector-5.svg";
+import { ReactComponent as Icon3 } from "../assets/Vector-3.svg";
 
 export interface Category {
   id: number;
@@ -71,5 +74,22 @@ export const categoriesArray: Category[] = [
     id: 12,
     icon: PlaceIcon,
     name: "Аэропорт",
+  },
+];
+export const homeCategoriesArray: Category[] = [
+  {
+    id: 1,
+    icon: Icon1,
+    name: "Самый посещаемый",
+  },
+  {
+    id: 2,
+    icon: Icon2,
+    name: "TOP",
+  },
+  {
+    id: 3,
+    icon: Icon3,
+    name: "Самые популярные",
   },
 ];
