@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import PlaceOverview from "./pages/places/placeOverview";
-import EventOverview from "./pages/events/event/EventOverview";
+import EventOverview from "./pages/events/event/EventOverview (1)";
 import { EventsList } from "./pages/events/eventsList/EventsList";
 import { Home } from "./pages/home/Home";
 import { MapView } from "./pages/map/MapView";

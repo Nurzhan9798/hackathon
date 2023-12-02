@@ -33,47 +33,27 @@ export const categoriesArray: Category[] = [
   {
     id: 4,
     icon: PlaceIcon,
-    name: "Аэропорт",
+    name: "Болница",
   },
   {
     id: 5,
     icon: HotelIcon,
-    name: "Гостиница",
+    name: "Аэропорт",
   },
   {
     id: 6,
     icon: CafeIcon,
-    name: "Кафе",
+    name: "Поездь",
   },
   {
     id: 7,
     icon: PlaceIcon,
-    name: "Достопримечательности",
+    name: "Театр",
   },
   {
     id: 8,
     icon: PlaceIcon,
-    name: "Аэропорт",
-  },
-  {
-    id: 9,
-    icon: HotelIcon,
-    name: "Гостиница",
-  },
-  {
-    id: 10,
-    icon: CafeIcon,
-    name: "Кафе",
-  },
-  {
-    id: 11,
-    icon: PlaceIcon,
-    name: "Достопримечательности",
-  },
-  {
-    id: 12,
-    icon: PlaceIcon,
-    name: "Аэропорт",
+    name: "Обменять деньги",
   },
 ];
 export const homeCategoriesArray: Category[] = [

@@ -1,10 +1,12 @@
+import axios from "axios";
 import classNames from "classnames";
 import L, { Icon, Map } from "leaflet";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { api } from "../../const/const";
 import { categoriesArray, Category } from "../../const/category";
 import { attractionIcon, foodIcon, hotelIcon } from "../../const/icons";
 import { Place, placesArray } from "../../const/place";
@@ -19,11 +21,18 @@ const iconMap: Record<string, Icon> = {
   6: hotelIcon,
   7: hotelIcon,
 };
+
+function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 export const MapView = () => {
   const [selectedCategory, setSelectedCategory] = useState(-1);
   const [map, setMap] = useState<Map | null>(null);
   const [categories, setCategories] = useState<Category[]>(categoriesArray);
   const [places, setPlaces] = useState<Place[]>(placesArray);
+  const query = useQuery();
 
   const fetchCategories = async () => {
     // const response = await axios.get<Category[]>(api + "/");
@@ -32,6 +41,7 @@ export const MapView = () => {
 
   const fetchPlaces = async () => {
     // const response = await axios.get<Place[]>(api + "/places");
+    // console.log(response);
     // setPlaces(response.data);
   };
 
@@ -39,6 +49,15 @@ export const MapView = () => {
     fetchCategories();
     fetchPlaces();
   }, []);
+
+  useEffect(() => {
+    if (query.get("location")) {
+      const location = query.get("location")?.split(",");
+      console.log(location);
+      if (location && location[0] && location[1])
+        map?.flyTo([parseFloat(location[0]), parseFloat(location[1])], 16);
+    }
+  }, [map, query]);
 
   useEffect(() => {
     if (!map) return;
@@ -161,14 +180,16 @@ export const MapView = () => {
           {places.map((place, index) => (
             <Card
               key={index}
-              style={{ flex: "0 0 auto", width: "18rem" }}
+              style={{ flex: "0 0 auto", width: "18rem", height: "250px" }}
               onClick={() => onPlaceClick(place)}
             >
               <Card.Img
                 variant="top"
+                // TODO
                 src={
                   "https://tengrinews.kz/userdata/news/2020/news_422927/resize/photo_345247.png"
                 }
+                style={{ height: "180px" }}
               />
               <Card.Body style={{ textAlign: "start" }}>
                 <Row>
