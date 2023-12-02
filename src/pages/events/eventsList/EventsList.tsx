@@ -1,184 +1,37 @@
 import classNames from "classnames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Category, homeCategoriesArray } from "../../../const/category";
+import { eventsArray, getEventsBySort, Place } from "../../../const/place";
 import cls from "./EventsList.module.css";
 
-interface EventsListProps {
-  className?: string;
-}
-
-// const categories = [
-//   {
-//     icon: HotelIcon,
-//     text: "Hotel",
-//     category: 1,
-//   },
-//   {
-//     icon: CafeIcon,
-//     text: "Cafe",
-//     category: 2,
-//   },
-//   {
-//     icon: PlaceIcon,
-//     text: "Places",
-//     category: 3,
-//   },
-// ];
-
-const data = [
-  {
-    id: 1,
-    name: "Calhetas",
-    img: "http://dummyimage.com/147x100.png/cc0000/ffffff",
-    rating: 96,
-    locationName: "Mercedes",
-  },
-  {
-    id: 2,
-    name: "Huayllo",
-    img: "http://dummyimage.com/229x100.png/5fa2dd/ffffff",
-    rating: 87,
-    locationName: "Kostopil’",
-  },
-  {
-    id: 3,
-    name: "Úštěk",
-    img: "http://dummyimage.com/140x100.png/cc0000/ffffff",
-    rating: 22,
-    locationName: "Supu",
-  },
-  {
-    id: 4,
-    name: "Oyem",
-    img: "http://dummyimage.com/178x100.png/5fa2dd/ffffff",
-    rating: 82,
-    locationName: "Jinxiu",
-  },
-  {
-    id: 5,
-    name: "Viedma",
-    img: "http://dummyimage.com/156x100.png/ff4444/ffffff",
-    rating: 33,
-    locationName: "Saratov",
-  },
-  {
-    id: 6,
-    name: "Yonghe",
-    img: "http://dummyimage.com/114x100.png/dddddd/000000",
-    rating: 8,
-    locationName: "Umm as Sāhik",
-  },
-  {
-    id: 7,
-    name: "Nowy Duninów",
-    img: "http://dummyimage.com/168x100.png/5fa2dd/ffffff",
-    rating: 93,
-    locationName: "La Ligua",
-  },
-  {
-    id: 8,
-    name: "Bytkiv",
-    img: "http://dummyimage.com/126x100.png/ff4444/ffffff",
-    rating: 70,
-    locationName: "Yong’an",
-  },
-  {
-    id: 9,
-    name: "Kimméria",
-    img: "http://dummyimage.com/249x100.png/5fa2dd/ffffff",
-    rating: 70,
-    locationName: "Trenton",
-  },
-  {
-    id: 10,
-    name: "Chuncheon",
-    img: "http://dummyimage.com/186x100.png/ff4444/ffffff",
-    rating: 51,
-    locationName: "Ekerö",
-  },
-  {
-    id: 11,
-    name: "Illéla",
-    img: "http://dummyimage.com/233x100.png/5fa2dd/ffffff",
-    rating: 76,
-    locationName: "Umeå",
-  },
-  {
-    id: 12,
-    name: "Périgny",
-    img: "http://dummyimage.com/215x100.png/cc0000/ffffff",
-    rating: 94,
-    locationName: "Gaobu",
-  },
-  {
-    id: 13,
-    name: "Osielsko",
-    img: "http://dummyimage.com/231x100.png/ff4444/ffffff",
-    rating: 14,
-    locationName: "Zhongchao",
-  },
-  {
-    id: 14,
-    name: "Aksarka",
-    img: "http://dummyimage.com/173x100.png/ff4444/ffffff",
-    rating: 26,
-    locationName: "Pumaqangtang",
-  },
-  {
-    id: 15,
-    name: "Skene",
-    img: "http://dummyimage.com/188x100.png/dddddd/000000",
-    rating: 80,
-    locationName: "Xirikxiy",
-  },
-  {
-    id: 16,
-    name: "Ulyanovsk",
-    img: "http://dummyimage.com/244x100.png/cc0000/ffffff",
-    rating: 26,
-    locationName: "Parigi",
-  },
-  {
-    id: 17,
-    name: "Krueng Luak",
-    img: "http://dummyimage.com/145x100.png/5fa2dd/ffffff",
-    rating: 8,
-    locationName: "Senanga",
-  },
-  {
-    id: 18,
-    name: "Colmeal",
-    img: "http://dummyimage.com/225x100.png/cc0000/ffffff",
-    rating: 7,
-    locationName: "Khorixas",
-  },
-  {
-    id: 19,
-    name: "Casal da Serra",
-    img: "http://dummyimage.com/102x100.png/5fa2dd/ffffff",
-    rating: 8,
-    locationName: "Ea Drăng",
-  },
-  {
-    id: 20,
-    name: "General Enrique Godoy",
-    img: "http://dummyimage.com/194x100.png/ff4444/ffffff",
-    rating: 16,
-    locationName: "Byala Slatina",
-  },
-];
-
-export const EventsList = (props: EventsListProps) => {
-  const { className } = props;
+export const EventsList = () => {
   const [selectedCategory, setSelectedCategory] = useState(-1);
+  const [events, setEvents] = useState<Place[]>();
 
   const selectCategory = (category: number) => {
-    if (selectedCategory === category) setSelectedCategory(-1);
-    else setSelectedCategory(category);
+    setSelectedCategory(category);
   };
+
+  useEffect(() => {
+    setEvents(eventsArray);
+  }, []);
+
+  useEffect(() => {
+    console.log(selectedCategory);
+    if (selectedCategory === 1) {
+      console.log(getEventsBySort("visit"));
+      setEvents(getEventsBySort("top"));
+    } else if (selectedCategory === 2) {
+      console.log(getEventsBySort("top"));
+      setEvents(getEventsBySort("top"));
+    } else if (selectedCategory === 3) {
+      console.log(getEventsBySort("popular"));
+      setEvents(getEventsBySort("popular"));
+    }
+  }, [selectedCategory]);
 
   return (
     <Container fluid>
@@ -188,7 +41,7 @@ export const EventsList = (props: EventsListProps) => {
           gap={3}
           style={{
             padding: "10px 20px",
-            position: "absolute",
+            // position: "absolute",
             backgroundColor: "white",
             zIndex: 10,
             width: "100%",
@@ -200,6 +53,7 @@ export const EventsList = (props: EventsListProps) => {
         >
           {homeCategoriesArray.map((category: Category) => (
             <div
+              key={category.id}
               style={{
                 minWidth: "50px",
                 maxWidth: "50px",
@@ -223,10 +77,10 @@ export const EventsList = (props: EventsListProps) => {
             </div>
           ))}
         </Stack>
-        {data.map((place) => (
-          <Link to={`/events/${place.id}`}>
+        {events?.map((place: Place) => (
+          <Link to={`/events/${place.id}`} key={place.id}>
             <Card className="mb-3">
-              <Card.Img variant="top" src={place.img} />
+              <Card.Img variant="top" src={place.image} />
               <Card.Body style={{ textAlign: "start" }}>
                 <Row>
                   <Col xs={9}>

@@ -4,7 +4,7 @@ import { FaHeart, FaMapMarkerAlt } from "react-icons/fa";
 import "./EventOverview.css";
 import { FaCheckCircle } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import { getPlaceById, Place } from "../../../const/place"; // Assuming you have a "verified" icon
+import { getEventById, getPlaceById, Place } from "../../../const/place"; // Assuming you have a "verified" icon
 
 const InlineCard = ({
   image = "",
@@ -101,11 +101,6 @@ const InlineCard = ({
 const EventOverview = () => {
   const [key, setKey] = useState<string>("first");
   const [isHeartActive, setHeartActive] = useState<boolean>(false);
-  const title = "МФК Каспий - МФК Атырау";
-  const image =
-    "https://tengrinews.kz/userdata/news/2020/news_422927/resize/photo_345247.png";
-  const description =
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type";
   const distance = "1400";
   const location = "Халық Арена";
   let Taxidrivers: {
@@ -134,10 +129,10 @@ const EventOverview = () => {
     },
   ];
 
-  const [place, setPlace] = useState<Place>();
+  const [event, setEvent] = useState<Place>();
   const { id } = useParams();
   useEffect(() => {
-    if (id) setPlace(getPlaceById(parseInt(id)));
+    if (id) setEvent(getEventById(parseInt(id)));
   }, [id]);
 
   const handleHeartClick = () => {
@@ -158,7 +153,7 @@ const EventOverview = () => {
       <div style={{ position: "relative" }}>
         <Card.Img
           variant="top"
-          src={image}
+          src={event?.image}
           style={{ borderRadius: "10px 10px 0 0" }}
         />
         <FaHeart
@@ -180,6 +175,8 @@ const EventOverview = () => {
           marginTop: "10px",
           paddingBottom: "50px",
           borderRadius: "0 0 10px 10px",
+          overflow: "auto",
+          marginBottom: "80px",
         }}
       >
         <Tabs
@@ -204,7 +201,7 @@ const EventOverview = () => {
                   float: "left",
                 }}
               >
-                {title}
+                {event?.name}
               </h1>
               <br></br>
               <h2
@@ -222,7 +219,7 @@ const EventOverview = () => {
               </h2>
               <br></br>
               <p style={{ marginTop: "10%", margin: "3%", fontSize: "150%" }}>
-                {description}
+                {event?.description}
               </p>
               <InlineCard
                 image="https://play-lh.googleusercontent.com/iTyEfy0FddPkId6IjdcTbLdErlBbfsrBICehVWLkLHmk4rVcAQlJRMn5_LWsd4Fb8C8"
@@ -275,7 +272,7 @@ const EventOverview = () => {
           <FaMapMarkerAlt style={{ marginRight: "5px" }} />
           <span>{distance} км</span>
         </div>
-        <Link to={`/map?location=${place?.locationCoordinate}`}>
+        <Link to={`/map?location=${event?.locationCoordinate}`}>
           <Button
             variant="primary"
             style={{
